@@ -1,8 +1,8 @@
 import './Karta.css';
 
-function Karta({obr}){
+function Karta({obr, klik}){
     return (
-        <button className='przycisk'>
+        <button className='przycisk' onClick={klik}>
             <img src={obr} alt="obrazek" />
         </button>
     );
