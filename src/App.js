@@ -1,23 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import {useState} from 'react';
+import tyl from './img/tyl.png';
+import k1 from './img/k1.png';
+import k2 from './img/k2.png';
+import k3 from './img/k3.png';
+import Karta from './Karta';
 
 function App() {
+  let [karty, setKarty] = useState(Array(6).fill(tyl));
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>memory</h1>
+      <div className='wiersz'>
+        <Karta obr={tyl} />
+        <Karta obr={tyl} />
+        <Karta obr={tyl} />
+      </div>
+      <div className='wiersz'>
+        <Karta obr={k1} />
+        <Karta obr={k2} />
+        <Karta obr={k3} />
+      </div>
     </div>
   );
 }
