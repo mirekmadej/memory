@@ -8,15 +8,57 @@ import Karta from './Karta';
 
 const Karty=[tyl, k1, k2, k3];
 let wylosowane=[1,2,2,3,1,3];
+let odkryte=[0,0,0,0,0,0];
+let kp=-1;
+let kd=-1;
+let kpi, kdi;  //indeksy kart
 
 function App() {
   let [karty, setKarty] = useState(Array(6).fill(tyl));
   function obslugaKlik(i)
   {
+    if(odkryte[i]!=0) return;
     let k = karty.slice();
-    k[i] = Karty[wylosowane[i]];
-    setKarty(k);
-    console.log(i);
+    
+    if(kp==-1)  //to jest karta pierwsza
+    {
+      k[i] = Karty[wylosowane[i]];
+      setKarty(k);
+      kp = wylosowane[i];
+      odkryte[i] = wylosowane[i];
+      kpi=i;
+      return;
+    }
+    if(kd==-1)
+    {
+      k[i] = Karty[wylosowane[i]];
+      setKarty(k);
+      kd = wylosowane[i];
+      odkryte[i] = wylosowane[i];
+      kdi=i;      
+    }
+    if(kp == kd) //karty równe
+    {
+      kp=kd=-1;
+      
+    }
+    else    //karty różne
+    {
+      k[kpi] = tyl;
+      k[kdi] = tyl;
+      odkryte[kpi] = 0;
+      odkryte[kdi] = 0;
+      setKarty(k);
+      kp = kd = -1;
+    }
+
+
+
+
+
+    
+    
+    console.log(i, kp, kd, kpi, kdi);
   }
 
   return (
