@@ -13,9 +13,15 @@ let kp=-1;
 let kd=-1;
 let kpi, kdi;  //indeksy kart
 
+function delay(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
+}
+
+
 function App() {
   let [karty, setKarty] = useState(Array(6).fill(tyl));
-  function obslugaKlik(i)
+  let [licznik, setLicznik] = useState(0);
+  async function obslugaKlik(i)
   {
     if(odkryte[i]!=0) return;
     let k = karty.slice();
@@ -35,8 +41,11 @@ function App() {
       setKarty(k);
       kd = wylosowane[i];
       odkryte[i] = wylosowane[i];
-      kdi=i;      
+      kdi=i;     
+      setLicznik(licznik+1);
+
     }
+
     if(kp == kd) //karty równe
     {
       kp=kd=-1;
@@ -44,18 +53,17 @@ function App() {
     }
     else    //karty różne
     {
+      console.log("start");
+      await delay(1000);
+      console.log("stop");      
       k[kpi] = tyl;
       k[kdi] = tyl;
       odkryte[kpi] = 0;
-      odkryte[kdi] = 0;
-      setKarty(k);
+      odkryte[kdi] = 0;      
+      setKarty(k.slice());
       kp = kd = -1;
     }
-
-
-
-
-
+    
     
     
     console.log(i, kp, kd, kpi, kdi);
@@ -74,8 +82,33 @@ function App() {
         <Karta obr={karty[4]} klik={()=>obslugaKlik(4)} />
         <Karta obr={karty[5]} klik={()=>obslugaKlik(5)} />
       </div>
+      <h2>Liczba prób: {licznik} </h2>
+
+      <p><button onClick={nowaGra}>Nowa gra</button></p>
     </div>
   );
+  function nowaGra()
+{
+  console.log("nowa gra");
+  // wylosowac po dwie wartości 1,2,3 do tablicy wylosowane
+  let losuj=[1,1,2,2,3,3];
+  let poz=0;
+  while(losuj.length > 0)
+  {
+    let x = Math.floor(Math.random()*losuj.length);
+    console.log(losuj[x]);
+    wylosowane[poz++] = losuj[x];
+    console.log(losuj);
+    losuj.splice(x,1);
+    console.log(losuj);
+    console.log(wylosowane);
+  }
+  setLicznik(0);
+  let k = Array(6).fill(tyl);
+  setKarty(k.slice());
 }
+}
+
+
 
 export default App;
